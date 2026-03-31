@@ -69,17 +69,17 @@ docker_install() {
 sublime_install() {
     sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
     sudo dnf config-manager addrepo --from-repofile=https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
-    sudo dnf install sublime-text
+    sudo dnf install sublime-text -y
 }
 
-# sudo dnf upgrade -y
-# start
-# rust_install
-# nvim_install
-# firefox_defedora
-# ghostty_install
-# bun_install
-# fish_install
-# flatpack_install
-# docker_install
-sublime_install
+sudo dnf upgrade -y
+start
+rust_install
+nvim_install
+firefox_defedora
+ghostty_install
+bun_install
+fish_install
+flatpack_install
+docker_install
+# sublime_install
