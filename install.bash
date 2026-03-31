@@ -64,7 +64,6 @@ fish_install() {
 
 sudo dnf upgrade -y
 start
-special
 rust_install
 nvim_install
 firefox_defedora
