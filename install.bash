@@ -1,7 +1,10 @@
 #!/bin/bash
-
-# ====== CONFIG ======
 packages=(
+  curl
+  wget
+  htop
+  audacity
+  blender
   firefox
   neovim
   vim
@@ -12,6 +15,7 @@ packages=(
   libreoffice
   gnome-boxes
   fish
+  fastfetch
 )
 
 install() {
@@ -27,8 +31,6 @@ start() {
 }
 
 # curl -f https://zed.dev/install.sh | sh
-#curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && rm get-docker.sh
-
 flatpack_install() {
     flatpak install flathub com.bitwarden.desktop
     flatpak install -y flathub org.prismlauncher.PrismLauncher
@@ -54,20 +56,30 @@ nvim_install() {
     rm -rf "$HOME/.config/nvim/.git"
 }
 fish_install() {
-    # Přidá jen "exec fish" do .bashrc (pokud tam ještě není)
-    if ! grep -q "^exec fish" ~/.bashrc; then
-        echo "exec fish" >> ~/.bashrc
+    # Přidá jen "fish" do .bashrc (pokud tam ještě není)
+    if ! grep -q "^fish" ~/.bashrc; then
+        echo "fish" >> ~/.bashrc
     fi
 
     fish -c "set -U fish_greeting"
 }
+docker_install() {
+    curl -fsSL https://get.docker.com | bash
+}
+sublime_install() {
+    sudo rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+    sudo dnf config-manager addrepo --from-repofile=https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+    sudo dnf install sublime-text
+}
 
-sudo dnf upgrade -y
-start
-rust_install
-nvim_install
-firefox_defedora
-ghostty_install
-bun_install
-fish_install
-flatpack_install
+# sudo dnf upgrade -y
+# start
+# rust_install
+# nvim_install
+# firefox_defedora
+# ghostty_install
+# bun_install
+# fish_install
+# flatpack_install
+# docker_install
+sublime_install
