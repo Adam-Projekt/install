@@ -16,6 +16,8 @@ packages=(
   gnome-boxes
   fish
   fastfetch
+  swift-lang
+  gimp
 )
 
 install() {
@@ -71,6 +73,33 @@ sublime_install() {
   sudo dnf config-manager addrepo --from-repofile=https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
   sudo dnf install sublime-text -y
 }
+jetbrains_toolbox_install() {
+    local INSTALL_DIR="$HOME/jetbrains-toolbox"
+    local TOOLBOX_BIN="$INSTALL_DIR/jetbrains-toolbox"
+    local DOWNLOAD_URL="https://data.services.jetbrains.com/products/download?code=TBA&platform=linux"
+
+    # Kontrola, jestli už je nainstalovaný
+    if [ -f "$TOOLBOX_BIN" ]; then
+        echo "JetBrains Toolbox už je nainstalovaný."
+        echo "Spouštím existující instalaci..."
+        "$TOOLBOX_BIN" &
+        return 0
+    fi
+
+    mkdir -p "$INSTALL_DIR"
+    cd "$INSTALL_DIR" || { echo "Chyba: nelze přejít do $INSTALL_DIR"; return 1; }
+
+    echo "Stahuju JetBrains Toolbox..."
+    wget -O toolbox.tar.gz --quiet "$DOWNLOAD_URL" || { echo "Chyba při stahování"; return 1; }
+
+    echo "Rozbaluju..."
+    tar -xzf toolbox.tar.gz --strip-components=1 || { echo "Chyba při rozbalování"; return 1; }
+
+    echo "Spouštím JetBrains Toolbox..."
+    "$TOOLBOX_BIN" &
+
+    echo "Instalace dokončena. Toolbox je spuštěn."
+}
 
 sudo dnf upgrade -y
 start
@@ -83,3 +112,4 @@ fish_install
 flatpack_install
 docker_install
 sublime_install
+#jetbrains_toolbox_install
